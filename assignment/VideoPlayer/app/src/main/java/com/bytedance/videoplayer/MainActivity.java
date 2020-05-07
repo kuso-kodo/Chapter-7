@@ -1,5 +1,6 @@
 package com.bytedance.videoplayer;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,8 +27,18 @@ public class MainActivity extends AppCompatActivity {
         mediaController = new MediaController(this);
         mediaController.setMediaPlayer(videoView);
         videoView.setMediaController(mediaController);
-        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + R.raw.a);
-        videoView.setVideoURI(uri);
+
+        Intent intent = getIntent();
+        Uri realUri;
+        Uri data = intent.getData();
+
+        if(data != null) {
+            realUri = data;
+        } else {
+            realUri = Uri.parse("android.resource://" + getPackageName() + "/raw/" + R.raw.a);
+        }
+
+        videoView.setVideoURI(realUri);
         videoView.start();
     }
 
